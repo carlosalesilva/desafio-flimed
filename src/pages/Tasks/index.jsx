@@ -85,7 +85,7 @@ const Task = () => {
                   <Button size='sm' onClick={()=>{deletarNota(nota.id)}} variant="danger">Remover</Button>{' '}
                 </td>
               </tr>
-            ) : <h1>Lista vazia</h1>
+            ) : <tr>Lista vazia</tr>
             }
         </tbody>
       </Table>

@@ -19,6 +19,16 @@ export function GetNota(token, id){
         }
     })
 }
+export function AtualizaNota(token, id, nota){
+    return axios({
+        method:"PUT",
+        url:`https://test-flimed-backend.herokuapp.com/notes/update/${id}`,
+        headers: {
+            'Authorization': `Bearer ${token}` 
+        },
+        data:nota
+    })
+}
 
 export function CriarNotas(token, nota){
     return(

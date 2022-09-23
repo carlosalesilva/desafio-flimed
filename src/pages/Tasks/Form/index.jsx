@@ -3,7 +3,7 @@ import Table from 'react-bootstrap/esm/Table';
 import { Link, useParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { CriarNotas } from '../../../service/Notas';
+import { AtualizaNota, CriarNotas, GetNota } from '../../../service/Notas';
 
 
 import { AuthContext } from '../../../App';
@@ -14,20 +14,37 @@ import history from "../../../history";
 
 const FormTask = () => {
 
-  //const { id } = useParams();
+  const { id } = useParams();
+
+  useEffect(() => {
+    GetNota(context.token.token, id).then(
+      (response) => {
+        if(response.data.note != null){
+          setModel({
+            ...model,
+            title: response.data.note.title,
+            content: response.data.note.content,
+            description: response.data.note.description
+          })
+        }
+          
+      }
+    ).catch(
+        (error => {
+            console.log(error);
+        })
+    )
+  },[id])
 
   const  context = useContext(AuthContext)
 
 
   const [model, setModel] = useState({
-    title: '',
-    content: '',
-    description: ''
+    title: ' ',
+    content: ' ',
+    description: ' '
   })
 
-  /*useEffect(() => {
-      console.log(id)
-  }, [id])*/
 
   function updatedModel(e) {
 
@@ -40,17 +57,32 @@ const FormTask = () => {
   function onSubmit (e){
     e.preventDefault()
 
-    CriarNotas(context.token.token, model).then(
-      (response) => {
-        console.log("Cadastrado")
-        console.log(response.data)
-        history.push("/");
-      }
-    ).catch(
-        (error => {
-            console.log(error);
-        })
-    )
+    if(id== null){
+      CriarNotas(context.token.token, model).then(
+        (response) => {
+          console.log("Cadastrado")
+          console.log(response.data)
+          history.push("/");
+        }
+      ).catch(
+          (error => {
+              console.log(error);
+          })
+      )
+    }else{
+      console.log(model)
+      AtualizaNota(context.token.token, id, model).then(
+        (response) => {
+          console.log("Atualizado")
+          console.log(response.data)
+          history.push("/");
+        }
+      ).catch(
+          (error => {
+              console.log(error);
+          })
+      )
+    }
 
   }
 
@@ -73,6 +105,7 @@ const FormTask = () => {
             <Form.Control
               type="text"
               name='title'
+              value={model.title}
               onChange={(e) => updatedModel(e)}
               placeholder="Digite o título..."
             />
@@ -81,6 +114,7 @@ const FormTask = () => {
             <Form.Label>Descrição</Form.Label>
             <Form.Control
               type="text"
+              value={model.description}
               name='description'
               onChange={(e) => updatedModel(e)}
               placeholder="Digite a descrição..."
@@ -91,6 +125,7 @@ const FormTask = () => {
             <Form.Control
               as="textarea"
               rows={3}
+              value={model.content}
               name='content'
               onChange={(e) => updatedModel(e)}
             />
