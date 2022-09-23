@@ -9,6 +9,8 @@ import { CriarNotas } from '../../../service/Notas';
 import { AuthContext } from '../../../App';
 import Header from '../../../components/Header';
 
+import history from "../../../history";
+
 
 const FormTask = () => {
 
@@ -42,7 +44,7 @@ const FormTask = () => {
       (response) => {
         console.log("Cadastrado")
         console.log(response.data)
-
+        history.push("/");
       }
     ).catch(
         (error => {

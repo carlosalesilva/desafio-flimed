@@ -38,6 +38,8 @@ function App() {
         </Route>
         <Route exact path="/tarefas_cadastro" component={FormTask}>
         </Route>
+        <Route exact path="/edit/:id" component={FormTask}>
+        </Route>
         <Route exact path="/details/:id" component={Details}>
         </Route>
       </Router>

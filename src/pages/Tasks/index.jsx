@@ -6,23 +6,12 @@ import { Link, useParams } from 'react-router-dom';
 
 import { AuthContext } from '../../App';
 import { DeleteNotas, ListarNotas } from '../../service/Notas';
+import history from '../../history';
 
 
 const Task = () => {
 
-  const [notas, setNotas] = useState([
-    {
-      "message": "-",
-      "note": {
-        "id": "1",
-        "title": "-",
-        "content": "-",
-        "description": "-",
-        "insertedAt": "-",
-        "userId": "-"
-      }
-    }
-  ])
+  const [notas, setNotas] = useState([])
   const  context = useContext(AuthContext)
 
   useEffect(()=>{
@@ -31,11 +20,8 @@ const Task = () => {
       (response) => {
         console.log(response.data)
         if(response.data != null){
-          setNotas([
-            response.data,
-            response.data,
-            response.data
-          ])
+          setNotas(response.data.notes)
+          console.log(response.data.notes)
         }
       }
     ).catch(
@@ -53,6 +39,7 @@ const Task = () => {
     DeleteNotas(context.token.token, id).then(
       (response) => {
         console.log(response.data)
+        history.push("/")
       }
     ).catch(
         (error => {
@@ -83,19 +70,19 @@ const Task = () => {
         <tbody>
             {
             notas.length > 0 ?
-            notas.map((nota, index) => 
-              <tr key={nota.note.id}>
-                <td>{nota.note.id}</td>
-                <td>{nota.note.title}</td>
-                <td>{nota.note.description}</td>
+            notas.map((nota) => 
+              <tr key={nota.id}>
+                <td>{nota.id}</td>
+                <td>{nota.title}</td>
+                <td>{nota.description}</td>
                 <td>
-                  <Link to={`/tarefas_cadastro/${nota.note.id}`}>
+                  <Link to={`/edit/${nota.id}`}>
                     <Button size='sm'>Editar</Button>{' '}
                   </Link>
-                  <Link to={`/details/${nota.note.id}`}>
+                  <Link to={`/details/${nota.id}`}>
                   <Button size='sm' variant="info">Visualizar</Button>{' '}
                   </Link>
-                  <Button size='sm' onClick={()=>{deletarNota(nota.note.id)}} variant="danger">Remover</Button>{' '}
+                  <Button size='sm' onClick={()=>{deletarNota(nota.id)}} variant="danger">Remover</Button>{' '}
                 </td>
               </tr>
             ) : <h1>Lista vazia</h1>

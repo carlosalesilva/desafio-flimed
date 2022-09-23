@@ -3,7 +3,17 @@ import axios from "axios";
 export function ListarNotas(token){
     return axios({
         method:"GET",
-        url:"https://test-flimed-backend.herokuapp.com/notes/show/de77fb13-84d9-48a8-8df1-db43ba6b65fe",
+        url:"https://test-flimed-backend.herokuapp.com/users/show",
+        headers: {
+            'Authorization': `Bearer ${token}` 
+        }
+    })
+}
+
+export function GetNota(token, id){
+    return axios({
+        method:"GET",
+        url:`https://test-flimed-backend.herokuapp.com/notes/show/${id}`,
         headers: {
             'Authorization': `Bearer ${token}` 
         }
