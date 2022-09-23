@@ -3,7 +3,7 @@ import axios from "axios";
 export function ListarNotas(token){
     return axios({
         method:"GET",
-        url:"https://test-flimed-backend.herokuapp.com/notes/show/e367f046-8260-4d72-ac2e-3adfb07c9194",
+        url:"https://test-flimed-backend.herokuapp.com/notes/show/de77fb13-84d9-48a8-8df1-db43ba6b65fe",
         headers: {
             'Authorization': `Bearer ${token}` 
         }
@@ -15,11 +15,22 @@ export function CriarNotas(token, nota){
         axios({
             method: "POST",
             url: "https://test-flimed-backend.herokuapp.com/notes/create",
-            headers:{
-                "token": token,
+            headers: {
+                'Authorization': `Bearer ${token}` 
             },
             data:nota
         })
     );
 }
 
+export function DeleteNotas(token, id){
+    return(
+        axios({
+            method: "DELETE",
+            url: `https://test-flimed-backend.herokuapp.com/notes/delete/${id}`,
+            headers: {
+                'Authorization': `Bearer ${token}` 
+            }
+        })
+    );
+}

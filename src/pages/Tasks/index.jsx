@@ -5,37 +5,61 @@ import './index.css';
 import { Link, useParams } from 'react-router-dom';
 
 import { AuthContext } from '../../App';
-import { ListarNotas } from '../../service/Notas';
+import { DeleteNotas, ListarNotas } from '../../service/Notas';
 
 
 const Task = () => {
 
-  const [notas, setNotas] = useState()
+  const [notas, setNotas] = useState([
+    {
+      "message": "-",
+      "note": {
+        "id": "1",
+        "title": "-",
+        "content": "-",
+        "description": "-",
+        "insertedAt": "-",
+        "userId": "-"
+      }
+    }
+  ])
   const  context = useContext(AuthContext)
 
   useEffect(()=>{
-    console.log(context.token.token)
+    console.log(context)
     ListarNotas(context.token.token).then(
       (response) => {
-        console.log("Deu certo")
-          console.log(response.data);
+        console.log(response.data)
+        if(response.data != null){
           setNotas([
             response.data,
             response.data,
             response.data
           ])
-          notas.map((nota)=>{
-            console.log(nota.note.id)
-          })
+        }
+      }
+    ).catch(
+        (error => {
+            console.log("Deu ruim")
+            console.log(error);
+            console.log(notas)
+        })
+    )
+    
+
+  },[])
+
+  function deletarNota(id) {
+    DeleteNotas(context.token.token, id).then(
+      (response) => {
+        console.log(response.data)
       }
     ).catch(
         (error => {
             console.log(error);
         })
     )
-    
-
-  },[context])
+  }
 
   return (
     <div className='container'>
@@ -57,8 +81,9 @@ const Task = () => {
           </tr>
         </thead>
         <tbody>
-          {
-            notas.map(nota => (
+            {
+            notas.length > 0 ?
+            notas.map((nota, index) => 
               <tr key={nota.note.id}>
                 <td>{nota.note.id}</td>
                 <td>{nota.note.title}</td>
@@ -68,11 +93,11 @@ const Task = () => {
                     <Button size='sm'>Editar</Button>{' '}
                   </Link>
                   <Button size='sm' variant="info">Visualizar</Button>{' '}
-                  <Button size='sm' variant="danger">Remover</Button>{' '}
+                  <Button size='sm' onClick={()=>{deletarNota(nota.note.id)}} variant="danger">Remover</Button>{' '}
                 </td>
               </tr>
-            ))
-          } 
+            ) : <h1>Lista vazia</h1>
+            }
         </tbody>
       </Table>
     </div>

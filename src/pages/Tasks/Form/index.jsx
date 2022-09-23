@@ -1,32 +1,32 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import Table from 'react-bootstrap/esm/Table';
 import { Link, useParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { CriarNotas } from '../../../service/Notas';
 
 
+import { AuthContext } from '../../../App';
 
-interface ITask {
-  titulo: string;
-  descricao: string;
-  conteudo: string;
-}
 
-const FormTask: React.FC = () => {
+const FormTask = () => {
 
   //const { id } = useParams();
 
-  const [model, setModel] = useState<ITask>({
-    titulo: '',
-    descricao: '',
-    conteudo: ''
+  const  context = useContext(AuthContext)
+
+
+  const [model, setModel] = useState({
+    title: '',
+    content: '',
+    description: ''
   })
 
   /*useEffect(() => {
       console.log(id)
   }, [id])*/
 
-  function updatedModel(e: ChangeEvent<HTMLInputElement>) {
+  function updatedModel(e) {
 
     setModel({
       ...model,
@@ -34,10 +34,21 @@ const FormTask: React.FC = () => {
     })
   }
 
-  function onSubmit (e: ChangeEvent<HTMLFormElement>){
+  function onSubmit (e){
     e.preventDefault()
 
-    console.log(model)
+    CriarNotas(context.token.token, model).then(
+      (response) => {
+        console.log("Cadastrado")
+        console.log(response.data)
+
+      }
+    ).catch(
+        (error => {
+            console.log(error);
+        })
+    )
+
   }
 
   return (
@@ -45,7 +56,7 @@ const FormTask: React.FC = () => {
       <br />
       <div className='task-header'>
         <h1>Nova Nota</h1>
-        <Link to='/tarefas'>
+        <Link to='/'>
           <Button variant='dark'>Voltar</Button>
         </Link>
       </div>
@@ -56,8 +67,8 @@ const FormTask: React.FC = () => {
             <Form.Label>Título</Form.Label>
             <Form.Control
               type="text"
-              name='titulo'
-              onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
+              name='title'
+              onChange={(e) => updatedModel(e)}
               placeholder="Digite o título..."
             />
           </Form.Group>
@@ -65,8 +76,8 @@ const FormTask: React.FC = () => {
             <Form.Label>Descrição</Form.Label>
             <Form.Control
               type="text"
-              name='descricao'
-              onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
+              name='description'
+              onChange={(e) => updatedModel(e)}
               placeholder="Digite a descrição..."
             />
           </Form.Group>
@@ -75,8 +86,8 @@ const FormTask: React.FC = () => {
             <Form.Control
               as="textarea"
               rows={3}
-              name='conteudo'
-              onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
+              name='content'
+              onChange={(e) => updatedModel(e)}
             />
           </Form.Group>
           <Button variant="primary" type="submit">
