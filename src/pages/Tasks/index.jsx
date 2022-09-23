@@ -15,31 +15,28 @@ const Task = () => {
   const  context = useContext(AuthContext)
 
   useEffect(()=>{
-    console.log(context)
+    carregarNotas()
+  },[])
+
+  function carregarNotas(){
     ListarNotas(context.token.token).then(
       (response) => {
-        console.log(response.data)
         if(response.data != null){
           setNotas(response.data.notes)
-          console.log(response.data.notes)
         }
       }
     ).catch(
         (error => {
-            console.log("Deu ruim")
             console.log(error);
-            console.log(notas)
         })
     )
-    
-
-  },[])
+  }
 
   function deletarNota(id) {
     DeleteNotas(context.token.token, id).then(
       (response) => {
-        console.log(response.data)
-        history.push("/")
+        carregarNotas()
+        alert("Nota Deletada");
       }
     ).catch(
         (error => {

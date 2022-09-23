@@ -62,6 +62,7 @@ const FormTask = () => {
         (response) => {
           console.log("Cadastrado")
           console.log(response.data)
+          alert("Nota Criada");
           history.push("/");
         }
       ).catch(
@@ -70,11 +71,9 @@ const FormTask = () => {
           })
       )
     }else{
-      console.log(model)
       AtualizaNota(context.token.token, id, model).then(
         (response) => {
-          console.log("Atualizado")
-          console.log(response.data)
+          alert("Nota Editada");
           history.push("/");
         }
       ).catch(
