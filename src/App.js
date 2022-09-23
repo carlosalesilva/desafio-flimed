@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Task from './pages/Tasks';
 import FormTask from './pages/Tasks/Form';
 import CadastroUsers from './pages/CadastroUsers';
+import Details from './pages/Details';
 
 export const AuthContext = createContext(null);
 
@@ -36,6 +37,8 @@ function App() {
         <Route exact path="/cadastro_users" component={CadastroUsers}>
         </Route>
         <Route exact path="/tarefas_cadastro" component={FormTask}>
+        </Route>
+        <Route exact path="/details/:id" component={Details}>
         </Route>
       </Router>
     </AuthContext.Provider>

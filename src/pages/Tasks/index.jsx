@@ -92,7 +92,9 @@ const Task = () => {
                   <Link to={`/tarefas_cadastro/${nota.note.id}`}>
                     <Button size='sm'>Editar</Button>{' '}
                   </Link>
+                  <Link to={`/details/${nota.note.id}`}>
                   <Button size='sm' variant="info">Visualizar</Button>{' '}
+                  </Link>
                   <Button size='sm' onClick={()=>{deletarNota(nota.note.id)}} variant="danger">Remover</Button>{' '}
                 </td>
               </tr>
