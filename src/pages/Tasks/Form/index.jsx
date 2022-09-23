@@ -7,6 +7,7 @@ import { CriarNotas } from '../../../service/Notas';
 
 
 import { AuthContext } from '../../../App';
+import Header from '../../../components/Header';
 
 
 const FormTask = () => {
@@ -52,7 +53,9 @@ const FormTask = () => {
   }
 
   return (
-    <div className='container'>
+    <div>
+      <Header/>
+      <div className='container'>
       <br />
       <div className='task-header'>
         <h1>Nova Nota</h1>
@@ -97,6 +100,8 @@ const FormTask = () => {
 
       </div>
     </div>
+    </div>
+    
   );
 }
 

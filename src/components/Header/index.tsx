@@ -11,7 +11,7 @@ const Header: React.FC = () => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
           <NavLink exact className="nav-link" to="/" >Home</NavLink>
-          <NavLink exact className="nav-link" to="/tarefas" >Notas</NavLink>
+          <NavLink exact className="nav-link" to="/tarefas_cadastro" >Cadastrar Nota</NavLink>
         </Nav>
       </Navbar.Collapse>
   </Navbar>
