@@ -4,6 +4,8 @@ import history from './history';
 import { createContext, useState } from 'react';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import Task from './pages/Tasks';
+import FormTask from './pages/Tasks/Form';
 
 export const AuthContext = createContext(null);
 
@@ -29,6 +31,8 @@ function App() {
 
         </Route>
         <Route exact path="/login" component={Login}>
+        </Route>
+        <Route exact path="/tarefas_cadastro" component={FormTask}>
         </Route>
       </Router>
     </AuthContext.Provider>
